@@ -2,7 +2,7 @@
 
 ## 1. Choice of Base Images
 - **Backend:** I used `node:18-alpine` because it is a lightweight Linux distribution specifically designed for Node.js applications. This significantly reduces the container size while providing all necessary dependencies.
-- **Client:** I utilized a multi-stage build starting with `node:18-alpine` to compile the React build, and then switched to `nginx:alpine` to serve the static files. This is the industry standard for production, as Nginx is highly optimized for performance and `nginx:alpine` is extremely small.
+- **Client:** I utilized a multi-stage build starting with `node:14-alpine` to compile the React build, and then switched to `nginx:alpine` to serve the static files. This is the industry standard for production, as Nginx is highly optimized for performance and `nginx:alpine` is extremely small.
 
 ## 2. Dockerfile Directives
 - I used `WORKDIR /app` to maintain a clean filesystem within the container.

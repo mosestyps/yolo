@@ -1,15 +1,74 @@
-# Overview
-This project involved the containerization and deployment of a full-stack yolo application using Docker.
+# YOLO Clothing Store
+
+## Overview
+
+YOLO is a full-stack clothing store web application built using React, Node.js, Express, and MongoDB. The application allows users to browse clothing products and provides product management functionality through a REST API.
+
+## Features
+
+* Display available products
+* Add new products
+* Update existing products
+* Delete products
+* Responsive user interface
+
+## Technologies Used
+
+* React
+* Node.js
+* Express.js
+* MongoDB
+* Mongoose
+* Axios
+* Bootstrap
+
+## Installation
+
+1. Clone the repository.
+2. Install backend dependencies:
+
+```bash
+cd server
+npm install
+```
+
+3. Install frontend dependencies:
+
+```bash
+cd client
+npm install
+```
+
+## Running the Application
+
+Start the backend:
+
+```bash
+cd server
+npm start
+```
+
+Start the frontend:
+
+```bash
+cd client
+npm start
+```
+
+Open your browser and visit:
+
+```text
+http://localhost:3000
+```
+
+The backend API is available at:
+
+```text
+http://localhost:5000/api/products
+```
+
+## Author
+
+Moses Njenga
 
 
-# Requirements
-Install the docker engine here:
-- [Docker](https://docs.docker.com/engine/install/) 
-
-## How to launch the application 
-
-
-![Alt text](image.png)
-
-## How to run the app
-Use vagrant up --provison command
