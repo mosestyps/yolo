@@ -7,3 +7,12 @@ vault.yml
 .vscode
 .vscode/*
 .vscode/*.json
+node_modules/
+package-lock.json
+/coverage
+/build
+backend/node_modules/
+backend/package-lock.json
+client/node_modules/
+client/package-lock.json
+client/build/
