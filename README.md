@@ -67,6 +67,13 @@ The backend API is available at:
 http://localhost:5000/api/products
 ```
 
+
+## Deployment Evidence
+
+![Docker Hub Backend](screenshots/Screenshot%20from%202026-06-30%2001-37-58.png)
+![Docker Hub Client](screenshots/Screenshot%20from%202026-06-30%2001-40-00.png)
+
+
 ## Author
 
 Moses Njenga
