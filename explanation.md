@@ -15,3 +15,14 @@
 
 ## 4. Git Workflow
 - I used a structured Git approach, ensuring that every significant change (creating a Dockerfile, setting up Compose, adding functionality) was committed with a descriptive message to track the development history.
+
+## Current Status
+- Application successfully containerized and running via Nginx.
+- Resolved `react-scripts` build errors by adjusting local dependencies and build configuration.
+
+## Key Configurations
+- `Dockerfile`: Configured to serve the built static `build` folder using Nginx.
+- `.dockerignore`: Added to exclude local `node_modules` and build artifacts to maintain container stability.
+
+## Troubleshooting Notes
+- If build errors occur, ensure `npm install` and `npm run build` are executed within the `/client` directory to generate the necessary production files.
