@@ -1,7 +1,7 @@
 import React from 'react'; 
 // import '../App.css';
 import Header from './Header';
-import ProductControl from './ProductControl';
+import ProductList from './ProductControl';
 import AboutUs from './AboutUs';
 import Footer from './Footer';
 
@@ -10,7 +10,7 @@ function App() {
     <div className="container-fluid">
       {/* <h1> App</h1> */}
       <Header />
-      <ProductControl />
+      <ProductList />
       <AboutUs />
       <Footer />
     </div>

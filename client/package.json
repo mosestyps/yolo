@@ -12,7 +12,8 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^1.18.1",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "react-scripts": "^5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -35,8 +36,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "react-scripts": "^0.0.0"
   }
 }

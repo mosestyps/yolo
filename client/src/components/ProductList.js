@@ -1,56 +1,37 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import Product from './Product';
 
+const ProductList = () => {
+  const [products, setProducts] = useState([]);
 
-import PropTypes from 'prop-types';
+  useEffect(() => {
+    axios.get('http://localhost:5000/api/products')
+      .then(response => {
+        setProducts(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
 
-
-// 
-
-function ProductList (props) {
-    
-    return (
-        <React.Fragment>
-            <div className='container' id="products">
-                <div className="row pdg-line">
-                    <div className="col-4 col-sm-4 col-md-4">
-                                <div className="abt-top-border"> </div>
-                            </div>
-                            <div className="col-4 col-sm-4 col-md-4">
-                                <p className="product-title text-center">PRODUCTS </p>
-                            </div>
-                            <div className="col-4 col-sm-4 col-md-4">
-                                <div className="abt-top-border"> </div>
-                    </div>
-                    
-                </div>
-                <div className="men-products">
-                    <div className="row">
-                    {props.productList.map((product) =>
-                        <  Product 
-                        whenProductClicked = {props.onProductSelection} 
-                        photo = {product.photo}
-                        name = {product.name}
-                        price = {product.price}
-                        id = {product._id}
-                        key= {product._id}/>
-
-                    )}
-                    </div>
-
-                </div>
-
-            </div>
-            
-        </React.Fragment>
-    )
-    
-}
-
-// Add propTypes for product list
-ProductList.propTypes = {
-    productList: PropTypes.array,
-    onProductSelection: PropTypes.func,
-} 
+  return (
+    <div className="container">
+      <h2>PRODUCTS</h2>
+      <div className="row">
+       {products.map(product => (
+    <Product
+        key={product._id}
+        id={product._id}
+        name={product.name}
+        price={product.price}
+        photo={product.photo}
+    />
+))}
+        
+      </div>
+    </div>
+  );
+};
 
 export default ProductList;
