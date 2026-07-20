@@ -1,0 +1,17 @@
+---
+- name: Pull image from repository
+  docker_image:
+    name: njengamoses/yolo-client:v1.0.0
+    source: pull
+
+- name: Create Node.js yolo-client Container
+  docker_container:
+    name: yolo-client
+    image: njengamoses/yolo-client:v1.0.0
+    networks:
+      - name: app-net
+    ports:
+      - "3000:3000"
+    state: started
+    restart_policy: always
+  become: yes
