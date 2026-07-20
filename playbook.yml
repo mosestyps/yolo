@@ -4,3 +4,6 @@
 
   roles:
     - ecommerce
+    - setup-mongodb
+    - backend-deployment
+    - frontend-deployment
