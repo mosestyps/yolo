@@ -35,6 +35,11 @@
     state: started
     enabled: yes
 
+- name: Create Docker network
+  community.docker.docker_network:
+    name: app-net
+    state: present
+
 - name: Run e-commerce container
   docker_container:
     name: ecommerce_app
