@@ -18,19 +18,23 @@ router.get('/', (req,res)=>{
 // @desc  Create a product
 router.post('/', (req,res)=>{
     
-    // Create a product item
+    // Create a product item with explicit number casting
     const newProduct = new Product({
         name: req.body.name,
         description: req.body.description,
-        price: req.body.price,
-        quantity: req.body.quantity,
+        price: Number(req.body.price),
+        quantity: Number(req.body.quantity),
     });
 
     newProduct.save((err, product)=>{
-        if (err) console.log(err)
-        res.json(product)
+        if (err) {
+            console.log(err);
+            return res.status(400).json({ success: false, error: err.message });
+        }
+        res.json(product);
     })
 })
+
 // @route PUT api/products/:id
 // @desc  Update a product
 router.put('/:id', (req,res)=>{
@@ -38,14 +42,18 @@ router.put('/:id', (req,res)=>{
     Product.updateOne({_id:req.params.id},{
         name: req.body.name,
         description: req.body.description,
-        price: req.body.price,
-        quantity: req.body.quantity,
-        photo:req.body.photo
+        price: Number(req.body.price),
+        quantity: Number(req.body.quantity),
+        photo: req.body.photo
     }, {upsert: true}, (err)=>{
-        if(err) console.log(err);
+        if(err) {
+            console.log(err);
+            return res.status(400).json({ success: false, error: err.message });
+        }
         res.json({success:true})
     })
 })
+
 // @route DELETE api/products/:id
 // @desc  Delete a product
 router.delete('/:id', (req,res)=>{
