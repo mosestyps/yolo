@@ -1,28 +1,25 @@
-# Project Explanation: Docker Containerization
+# Project Explanation: Docker Containerization & Stage 1 Automation
 
 ## 1. Choice of Base Images
-- **Backend:** I used `node:18-alpine` because it is a lightweight Linux distribution specifically designed for Node.js applications. This significantly reduces the container size while providing all necessary dependencies.
-- **Client:** I utilized a multi-stage build starting with `node:14-alpine` to compile the React build, and then switched to `nginx:alpine` to serve the static files. This is the industry standard for production, as Nginx is highly optimized for performance and `nginx:alpine` is extremely small.
+- **Backend:** I used `node:18-alpine` because it is a lightweight Linux distribution specifically designed for Node.js applications, significantly reducing container size while providing all necessary dependencies.
+- **Client:** Utilized a multi-stage build starting with `node:14-alpine` to compile the React build, switching to `nginx:alpine` to serve static files efficiently.
 
-## 2. Dockerfile Directives
-- I used `WORKDIR /app` to maintain a clean filesystem within the container.
-- I copied `package.json` before the rest of the code to leverage **Docker's layer caching**, which speeds up builds if only the source code changes.
-- I used `EXPOSE` to explicitly define the ports the containers listen on (5000 for backend, 80 for Nginx).
+## 2. Dockerfile Directives & Optimization
+- Used `WORKDIR /app` to maintain a clean filesystem within the container.
+- Copied `package.json` before source code to leverage **Docker's layer caching**, speeding up builds when only source code changes.
+- Used `EXPOSE` to explicitly define listening ports (5000 for backend, 80 for Nginx).
 
 ## 3. Docker Compose Networking & Volumes
-- **Networking:** The services are connected within a bridge network defined by Docker Compose. The backend can communicate with the database service by simply using `db:27017`.
-- **Persistence:** I defined a named volume `mongo-data` mapped to `/data/db`. This ensures that even if the containers are destroyed, the product data persists in the host machine's storage.
+- **Networking:** Services communicate over a custom bridge network (`app-net`), allowing seamless internal routing.
+- **Persistence:** Configured a named MongoDB volume mapped to `/data/db` to ensure product data persists even if containers are destroyed.
 
-## 4. Git Workflow
-- I used a structured Git approach, ensuring that every significant change (creating a Dockerfile, setting up Compose, adding functionality) was committed with a descriptive message to track the development history.
-
-## Current Status
-- Application successfully containerized and running via Nginx.
-- Resolved `react-scripts` build errors by adjusting local dependencies and build configuration.
-
-## Key Configurations
-- `Dockerfile`: Configured to serve the built static `build` folder using Nginx.
-- `.dockerignore`: Added to exclude local `node_modules` and build artifacts to maintain container stability.
+## 4. Stage 1 Architectural Decisions & Execution Order
+1. **Local Virtualization with Vagrant:** Utilized the `ubuntu/jammy64` (Ubuntu 22.04 LTS) box to guarantee a consistent, isolated environment identical across hosts.
+2. **Configuration Management via Ansible:** Automated container deployment and tool installations via idempotent playbooks.
+3. **Execution Order:** 
+   * Vagrant boots the Ubuntu VM and sets up SSH.
+   * Ansible runs playbooks locally to install Docker and configure environments.
+   * Docker pulls images, sets up networking, and starts containers with automatic restart policies.
 
 ## Troubleshooting Notes
-- If build errors occur, ensure `npm install` and `npm run build` are executed within the `/client` directory to generate the necessary production files.
+- If build errors occur, ensure dependencies are properly installed within directories and that host port `3000` correctly forwards to container port `80`.
