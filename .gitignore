@@ -17,3 +17,5 @@ client/node_modules/
 client/package-lock.json
 client/build/
 node_modules
+.terraform/
+awscliv2.zip
