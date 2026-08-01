@@ -1,14 +1,19 @@
 
-version: '3.8'
-
 services:
   client:
-    build: ./client
+    image: njengamoses/yolo-client:v1.0.2
+    container_name: yolo-frontend
     ports:
       - "3000:80"
-  
+    environment:
+      - REACT_APP_BACKEND_URL=http://backend:5000  
+    depends_on:
+      - backend
+    networks:
+      - yolo-net
+
   backend:
-    build: ./backend
+    image: njengamoses/yolo-backend:v1.0.0
     container_name: yolo-backend
     ports:
       - "5000:5000"
@@ -16,12 +21,21 @@ services:
       - MONGO_URI=mongodb://db:27017/yolo_db
     depends_on:
       - db
+    networks:
+      - yolo-net
 
   db:
     image: mongo:latest
     container_name: yolo-db
+    restart: unless-stopped
     volumes:
       - mongo-data:/data/db
+    networks:
+      - yolo-net
 
 volumes:
   mongo-data:
+
+networks:
+  yolo-net:
+    driver: bridge

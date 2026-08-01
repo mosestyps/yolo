@@ -1,8 +1,18 @@
 terraform {
+  required_version = ">= 1.1.0"
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 5.0"
+      version = ">= 5.0"
+    }
+
+    null = {
+      source = "hashicorp/null"
+    }
+
+    local = {
+      source = "hashicorp/local"
     }
   }
 }
@@ -61,7 +71,7 @@ resource "aws_route_table_association" "rta" {
   route_table_id = aws_route_table.public_rt.id
 }
 
-# 5. Create Security Group (SSH, Frontend on Port 3000, Backend)
+# 5. Create Security Group (SSH, Frontend, Backend, and MongoDB)
 resource "aws_security_group" "app_sg" {
   name        = "yolo_app_sg"
   description = "Allow inbound traffic for application"
@@ -91,6 +101,14 @@ resource "aws_security_group" "app_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    description = "MongoDB Port"
+    from_port   = 27017
+    to_port     = 27017
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -105,18 +123,45 @@ resource "aws_security_group" "app_sg" {
 
 # 6. Provision the EC2 Instance
 resource "aws_instance" "app_server" {
-  ami           = "ami-04a81a99f5ec58529"
-  instance_type = "t3.micro"
-  subnet_id     = aws_subnet.public_subnet.id
+  ami                    = "ami-04a81a99f5ec58529"
+  instance_type          = "t3.micro"
+  subnet_id              = aws_subnet.public_subnet.id
   vpc_security_group_ids = [aws_security_group.app_sg.id]
-  key_name      = "moses-key" 
+  key_name               = "new-moses-key"
 
   tags = {
     Name = "YoloAppServer"
   }
 }
 
-# Output the public IP so Ansible knows where to connect
+# 7. Automatically Generate Ansible Hosts File
+resource "local_file" "ansible_inventory" {
+  filename = "${path.module}/../hosts"
+
+  content = <<EOF
+[aws]
+${aws_instance.app_server.public_ip}
+
+[aws:vars]
+ansible_user=ubuntu
+ansible_ssh_private_key_file=/home/moses/yolo/Stage_two/terraform/new-moses-key.pem
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+EOF
+}
+
+# 8. Automatically Run Ansible Playbook After Provisioning
+resource "null_resource" "ansible_provision" {
+  depends_on = [
+    aws_instance.app_server,
+    local_file.ansible_inventory
+  ]
+
+  provisioner "local-exec" {
+    command = "ansible-playbook -i ../../hosts ../../playbook.yml"
+  }
+}
+
+# Output the public IP
 output "instance_public_ip" {
   value = aws_instance.app_server.public_ip
 }
