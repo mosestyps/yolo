@@ -1,40 +1,79 @@
-# YOLO Clothing Store - Stage 1 & Stage 2 Infrastructure Automation
+# YOLO Clothing Store – Stage 1 & Stage 2 Infrastructure Automation
 
 ## Overview
-YOLO is a full-stack clothing store web application built using React, Node.js, Express, and MongoDB. This project implements full infrastructure automation across two stages:
-* **Stage 1:** Local provisioning inside an Ubuntu Virtual Machine using Vagrant, Ansible, and Docker.
-* **Stage 2:** Cloud provisioning on AWS EC2 using Terraform and automated configuration management via Ansible.
 
-## Features
-* Display available products
-* Add new products
-* Update existing products
-* Delete products
-* Responsive user interface
+YOLO is a full-stack clothing store web application built using **React**, **Node.js**, **Express**, and **MongoDB**. The project demonstrates Infrastructure as Code (IaC), configuration management, virtualization, cloud deployment, and containerization using modern DevOps tools.
 
-## Technologies Used
-* **React** (Frontend)
-* **Node.js & Express.js** (Backend)
-* **MongoDB & Mongoose** (Database)
-* **Vagrant & Ubuntu 22.04 LTS** (Local Virtualization)
-* **Terraform & AWS EC2** (Cloud Infrastructure Provisioning)
-* **Ansible** (Configuration Management)
-* **Docker** (Containerization)
+The project is divided into two stages:
 
-## Architecture & Port Mapping
-* **`yolo-client`:** Frontend interface mapping host port `3000` to container port `80`.
-* **`yolo-backend`:** REST API service running on port `5000`.
-* **`app-mongo`:** MongoDB instance running on port `27017`.
+* **Stage 1:** Local infrastructure automation using **Vagrant**, **Ansible**, **Docker**, and **Docker Compose**.
+* **Stage 2:** Cloud infrastructure provisioning on **AWS EC2** using **Terraform**, followed by automated server configuration using **Ansible**.
 
 ---
 
-## Getting Started & Deployment
+# Features
 
-### 1. Clone the Repository
-```bash
-git clone [https://github.com/mosestyps/yolo.git](https://github.com/mosestyps/yolo.git)
-cd yolo
+* View available products
+* Add new products
+* Update existing products
+* Delete products
+* Responsive React frontend
+* RESTful Express backend
+* MongoDB database persistence
+* Dockerized microservices
 
-##Author
+---
 
-Moses Njenga
+# Technologies Used
+
+## Frontend
+
+* React
+* Bootstrap
+
+## Backend
+
+* Node.js
+* Express.js
+
+## Database
+
+* MongoDB
+* Mongoose
+
+## DevOps
+
+* Docker
+* Docker Compose
+* Vagrant
+* Ubuntu 22.04 LTS
+* Ansible
+* Terraform
+* AWS EC2
+
+---
+
+# Project Structure
+
+```text
+yolo/
+│
+├── backend/
+├── client/
+├── docker-compose.yml
+├── Vagrantfile
+├── ansible/
+│   ├── playbook.yml
+│   ├── inventory
+│   └── roles/
+│
+├── Stage_two/
+│   ├── terraform/
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   └── outputs.tf
+│   │
+│   ├── ansible/
+│   └── explanation.md
+│
+└── README.md
